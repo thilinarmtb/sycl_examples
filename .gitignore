@@ -1,2 +1,5 @@
 build/*
+install/*
 *.swp
+.sycl-examples-state
+.clang-tidy
