@@ -14,7 +14,7 @@ function print_help() {
 }
 
 SYCL_EXAMPLES_SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SYCL_EXAMPLES_STATE_PATH="${SYCL_EXAMPLES_SOURCE_DIR}/.sycl_examples_state"
+SYCL_EXAMPLES_STATE_PATH="${SYCL_EXAMPLES_SOURCE_DIR}/.sycl-examples-state"
 
 # Set default values.
 : ${SYCL_EXAMPLES_CXX:=icpx}

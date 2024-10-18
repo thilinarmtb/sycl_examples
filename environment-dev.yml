@@ -1,4 +1,4 @@
-name: sycl_examples_dev
+name: sycl-examples-dev
 channels:
   - conda-forge
   - anaconda
