@@ -7,7 +7,7 @@
 using namespace sycl;
 
 int main(int argc, char *argv[]) {
-  const int N = (argc > 1 ? atoi(argv[1]) : 1000);
+  const uint32_t N = (argc > 1 ? atoi(argv[1]) : 1000);
 
   queue q;
 

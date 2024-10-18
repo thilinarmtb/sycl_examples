@@ -5,7 +5,7 @@
 // https://www.intel.com/content/www/us/en/developer/articles/technical/device-discovery-with-sycl.html
 using namespace sycl;
 
-int main(int argc, char *argv[]) {
+int main(void) {
   for (auto platform : platform::get_platforms()) {
     std::cout << "Platform: " << platform.get_info<info::platform::name>()
               << std::endl;
