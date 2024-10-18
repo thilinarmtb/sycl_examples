@@ -9,7 +9,6 @@ function print_help() {
   echo "  -build-type <Release|RelWithDebInfo|Debug> Build type."
   echo "  -build-dir <build directory> Build directory."
   echo "  -install-prefix <install prefix> Install prefix."
-  echo "  -enable-tests Enable building tests."
   echo "  -enable-docs Enable building documentation."
   echo "  -enable-asan Enable address sanitizer."
 }
@@ -23,7 +22,6 @@ SYCL_EXAMPLES_STATE_PATH="${SYCL_EXAMPLES_SOURCE_DIR}/.sycl_examples_state"
 : ${SYCL_EXAMPLES_BUILD_TYPE:=RelWithDebInfo}
 : ${SYCL_EXAMPLES_BUILD_DIR:=`pwd`/build}
 : ${SYCL_EXAMPLES_INSTALL_PREFIX:=`pwd`/install}
-: ${SYCL_EXAMPLES_ENABLE_TESTS:=OFF}
 : ${SYCL_EXAMPLES_ENABLE_DOCS:=OFF}
 : ${SYCL_EXAMPLES_ENABLE_ASAN:=OFF}
 
@@ -59,10 +57,6 @@ while [[ $# -gt 0 ]]; do
       shift
       shift
       ;;
-    -enable-tests)
-      SYCL_EXAMPLES_ENABLE_TESTS="ON"
-      shift
-      ;;
     -enable-docs)
       SYCL_EXAMPLES_ENABLE_DOCS="ON"
       shift
@@ -86,7 +80,6 @@ cmake -DCMAKE_CXX_COMPILER=${SYCL_EXAMPLES_CXX} \
   -DCMAKE_BUILD_TYPE=${SYCL_EXAMPLES_BUILD_TYPE} \
   -DCMAKE_INSTALL_PREFIX=${SYCL_EXAMPLES_INSTALL_PREFIX} \
   -B ${SYCL_EXAMPLES_BUILD_DIR} \
-  -DENABLE_TESTS=${SYCL_EXAMPLES_ENABLE_TESTS} \
   -DENABLE_DOCS=${SYCL_EXAMPLES_ENABLE_DOCS} \
   -DENABLE_ASAN=${SYCL_EXAMPLES_ENABLE_ASAN} \
   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
