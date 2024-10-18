@@ -2,7 +2,13 @@
 
 #include <sycl/sycl.hpp>
 
-// https://www.intel.com/content/www/us/en/developer/articles/technical/device-discovery-with-sycl.html
+/*
+ * @ingroup device_discovery
+ *
+ * @brief We import the namespace sycl to avoid excessive typing.
+ *
+ * https://www.intel.com/content/www/us/en/developer/articles/technical/device-discovery-with-sycl.html
+ */
 using namespace sycl;
 
 int main(void) {

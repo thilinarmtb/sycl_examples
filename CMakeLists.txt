@@ -15,6 +15,8 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 # outside the build tree to the install RPATH.
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${PROJECT_SOURCE_DIR}/cmake")
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -67,6 +69,6 @@ if (CLANG_TIDY)
     COMMENT "Running clang-tidy ...")
 endif()
 
-#if (ENABLE_DOCS)
-#  add_subdirectory (docs)
-#endif()
+if (ENABLE_DOCS)
+  add_subdirectory (docs)
+endif()
