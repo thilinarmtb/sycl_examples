@@ -41,7 +41,7 @@ macro(add_examples examples)
       target_compile_options(${example_exe} PRIVATE -fsanitize=address)
       target_link_options(${example_exe} PRIVATE -fsanitize=address)
     endif()
-    install (TARGETS ${example_exe} RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+    install(TARGETS ${example_exe} RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
   endforeach()
 endmacro()
 
