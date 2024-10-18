@@ -1,0 +1,90 @@
+#!/bin/bash
+
+function print_help() {
+  echo "Usage: $0 [options]"
+  echo "Options:"
+  echo "  -help Print this help message and exit."
+  echo "  -install Install sycl examples."
+  echo "  -docs Build documentation with Doxygen+Sphinx."
+  echo "  -format Format the source code with clang-format."
+  echo "  -format-check Check if source formatting is compliant with clang-format."
+  echo "  -tidy Run clang-tidy."
+}
+
+SYCL_EXAMPLES_SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SYCL_EXAMPLES_STATE_PATH="${SYCL_EXAMPLES_SOURCE_DIR}/.sycl_examples_state"
+
+# Read state variables created by sycl_examplescfg.
+if [[ -f "${SYCL_EXAMPLES_STATE_PATH}" ]]; then
+  source "${SYCL_EXAMPLES_STATE_PATH}"
+else
+  echo "Error: You should run ./configure before running ${0}."
+  exit 1
+fi
+
+# Set default values.
+: ${SYCL_EXAMPLES_INSTALL:=NO}
+: ${SYCL_EXAMPLES_DOCS:=NO}
+: ${SYCL_EXAMPLES_FORMAT:=NO}
+: ${SYCL_EXAMPLES_FORMAT_CHECK:=NO}
+: ${SYCL_EXAMPLES_TIDY:=NO}
+
+if [[ $# -eq 0 ]]; then
+  print_help
+  exit 1
+fi
+
+# Handle command line arguments.
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -help)
+      print_help
+      exit 0
+      ;;
+    -install)
+      SYCL_EXAMPLES_INSTALL="YES"
+      shift
+      ;;
+    -docs)
+      SYCL_EXAMPLES_DOCS="YES"
+      shift
+      ;;
+    -format)
+      SYCL_EXAMPLES_FORMAT="YES"
+      shift
+      ;;
+    -format-check)
+      SYCL_EXAMPLES_FORMAT_CHECK="YES"
+      shift
+      ;;
+    -tidy)
+      SYCL_EXAMPLES_TIDY="YES"
+      shift
+      ;;
+    *)
+      echo "Unknown option: $1"
+      print_help
+      exit 1
+      ;;
+  esac
+done
+  
+if [[ "${SYCL_EXAMPLES_FORMAT}" == "YES" ]]; then
+  cmake --build ${SYCL_EXAMPLES_BUILD_DIR} --target format --parallel 4
+fi
+
+if [[ "${SYCL_EXAMPLES_FORMAT_CHECK}" == "YES" ]]; then
+  cmake --build ${SYCL_EXAMPLES_BUILD_DIR} --target format-check --parallel 4
+fi
+
+if [[ "${SYCL_EXAMPLES_TIDY}" == "YES" ]]; then
+  cmake --build ${SYCL_EXAMPLES_BUILD_DIR} --target tidy --parallel 4
+fi
+
+if [[ ${SYCL_EXAMPLES_DOCS} == "YES" ]]; then
+  cmake --build ${SYCL_EXAMPLES_BUILD_DIR} --target docs --parallel 4
+fi
+
+if [[ "${SYCL_EXAMPLES_INSTALL}" == "YES" ]]; then
+  cmake --build ${SYCL_EXAMPLES_BUILD_DIR} --target install --parallel 4
+fi
