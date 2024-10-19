@@ -1,6 +1,6 @@
-#include <iostream>
 #include <array>
 #include <cassert>
+#include <iostream>
 
 #include <sycl/sycl.hpp>
 
@@ -15,17 +15,13 @@ int main(int argc, char *argv[]) {
   int *b = malloc_shared<int>(N, q);
   int *c = malloc_shared<int>(N, q);
 
-  for (uint32_t i = 0; i < N; i++)
-    a[i] = 10, b[i] = 20, c[i] = 0;
+  for (uint32_t i = 0; i < N; i++) a[i] = 10, b[i] = 20, c[i] = 0;
 
-  q.parallel_for(range<1>(N), [=] (id<1> i) {
-      c[i] = a[i] + b[i];
-    }
-  ).wait();
+  q.parallel_for(range<1>(N), [=](id<1> i) { c[i] = a[i] + b[i]; }).wait();
 
   for (uint32_t i = 0; i < N; i++) assert(c[i] == 30 && "Wrong value in c");
 
   free(a, q), free(b, q), free(c, q);
 
-	return 0;
+  return 0;
 }
