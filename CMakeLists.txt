@@ -52,10 +52,10 @@ add_examples("${SOURCES}")
 find_program(CLANG_FORMAT NAMES clang-format)
 if (CLANG_FORMAT)
   add_custom_target(format
-    COMMAND ${CLANG_FORMAT} -i ${CMAKE_CURRENT_SOURCE_DIR}/*/*.[ch]
+    COMMAND ${CLANG_FORMAT} -i ${CMAKE_CURRENT_SOURCE_DIR}/*/*.[ch]pp
     COMMENT "Running clang-format ...")
   add_custom_target(format-check
-    COMMAND ${CLANG_FORMAT} --dry-run -Werror -i ${CMAKE_CURRENT_SOURCE_DIR}/*/*.[ch]
+    COMMAND ${CLANG_FORMAT} --dry-run -Werror -i ${CMAKE_CURRENT_SOURCE_DIR}/*/*.[ch]pp
     COMMENT "Running clang-format check ...")
 endif()
 
@@ -65,7 +65,7 @@ configure_file(${CMAKE_SOURCE_DIR}/.clang-tidy.in ${CMAKE_SOURCE_DIR}/.clang-tid
 find_program(CLANG_TIDY NAMES clang-tidy)
 if (CLANG_TIDY)
   add_custom_target(tidy
-    COMMAND ${CLANG_TIDY} -p ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*/*.[ch]
+    COMMAND ${CLANG_TIDY} -p ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*/*.[ch]pp
     COMMENT "Running clang-tidy ...")
 endif()
 
