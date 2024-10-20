@@ -88,3 +88,5 @@ fi
 if [[ "${SYCL_EXAMPLES_INSTALL}" == "YES" ]]; then
   cmake --build ${SYCL_EXAMPLES_BUILD_DIR} --target install --parallel 4
 fi
+
+exit $?

@@ -1,0 +1,75 @@
+name: Build, install and test examples
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled'
+        required: false
+        default: false
+env:
+  # Increase to reset cache manually
+  CACHE_NUMBER: 0
+  SYCL_EXAMPLES_ENV: /usr/share/miniconda/envs/sycl-examples-dev
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: Setup GitHub actions
+        id: setup_actions
+        uses: actions/checkout@v3
+      - name: Setup tmate session
+        id: setup_tmate
+        uses: mxschmitt/action-tmate@v3.13
+        if: ${{ inputs.debug_enabled }}
+      - name: Setup conda environment
+        id: setup_conda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: sycl-examples-dev
+          use-mamba: false
+      # Based on: https://dev.to/epassaro/caching-anaconda-environments-in-github-actions-5hde
+      - name: Cache conda environment
+        id: cache_conda
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.SYCL_EXAMPLES_ENV }}
+          key:  conda-${{ runner.os }}-${{ hashFiles('environment-dev.yml') }}-${{ hashFiles('requirements-dev.txt') }}-${{ env.CACHE_NUMBER }}
+      - name: Update conda environment
+        id: update_env
+        run: |
+          conda env update -n sycl-examples-dev -f environment-dev.yml
+        if: steps.cache.outputs.cache-hit != 'true'
+      # Based on: https://github.com/libocca/occa/blob/main/.github/workflows/build.yml
+      - name: Add oneAPI to apt
+        id: add_oneapi_to_apt
+        run: |
+          cd /tmp
+          wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+          sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+          rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+          sudo add-apt-repository "deb https://apt.repos.intel.com/oneapi all main"
+      # Based on: https://github.com/libocca/occa/blob/main/.github/workflows/build.yml
+      - name: Install oneAPI dpcpp compiler
+        id: install_oneapi_dpcpp
+        run: |
+          sudo apt update
+          sudo apt install intel-oneapi-compiler-dpcpp-cpp
+          sudo apt install intel-oneapi-compiler-fortran
+      - name: Configure and install examples
+        id: configure_and_build
+        run: |
+          source /opt/intel/oneapi/setvars.sh
+          ./configure
+          ./sycl-examples -install
+      - name: Block to allow inspecting failures
+        id: block_for_tmate
+        run: sleep 30m
+        if: ${{ failure() && inputs.debug_enabled }}

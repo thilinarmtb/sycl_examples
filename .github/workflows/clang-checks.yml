@@ -1,0 +1,63 @@
+name: Run clang-format and clang-tidy
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled'
+        required: false
+        default: false
+env:
+  # Increase to reset cache manually
+  CACHE_NUMBER: 0
+  SYCL_EXAMPLES_ENV: /usr/share/miniconda/envs/sycl-examples-dev
+jobs:
+  clang-checks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: Setup GitHub actions
+        id: setup_actions
+        uses: actions/checkout@v3
+      - name: Setup tmate session
+        id: setup_tmate
+        uses: mxschmitt/action-tmate@v3.13
+        if: ${{ inputs.debug_enabled }}
+      - name: Setup conda environment
+        id: setup_conda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: sycl-examples-dev
+          use-mamba: false
+      # Based on: https://dev.to/epassaro/caching-anaconda-environments-in-github-actions-5hde
+      - name: Cache conda environment
+        id: cache_conda
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.SYCL_EXAMPLES_ENV }}
+          key:  conda-${{ runner.os }}-${{ hashFiles('environment-dev.yml') }}-${{ hashFiles('requirements-dev.txt') }}-${{ env.CACHE_NUMBER }}
+      - name: Update conda environment
+        id: update_env
+        run: |
+          conda env update -n sycl-examples-dev -f environment-dev.yml
+        if: steps.cache.outputs.cache-hit != 'true'
+      - name: Run clang-format check
+        id: format_check
+        run: |
+          # Use g++ here to avoid having to install sycl.
+          ./configure -cxx g++ -cxxflags "-O0"
+          ./sycl-examples -format-check
+      - name: Run clang-tidy check
+        id: tidy_check
+        run: |
+          ./sycl-examples -tidy
+      - name: Block to allow inspecting failures
+        id: block_for_tmate
+        run: sleep 30m
+        if: ${{ failure() && inputs.debug_enabled }}
