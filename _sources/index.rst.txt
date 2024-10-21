@@ -14,3 +14,5 @@ CUDA :cite:`nvidia_cuda_guide`, and HIP :cite:`amd_hip_guide`.
 
    self
    device-discovery
+
+.. bibliography::
