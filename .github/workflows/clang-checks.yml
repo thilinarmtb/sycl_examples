@@ -12,8 +12,7 @@ on:
         required: false
         default: false
 env:
-  # Increase to reset cache manually
-  CACHE_NUMBER: 0
+  SYCL_EXAMPLES_CACHE_NUMBER: 0 # Increase to reset cache manually
   SYCL_EXAMPLES_ENV: /usr/share/miniconda/envs/sycl-examples-dev
 jobs:
   clang-checks:
@@ -41,7 +40,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.SYCL_EXAMPLES_ENV }}
-          key:  conda-${{ runner.os }}-${{ hashFiles('environment-dev.yml') }}-${{ hashFiles('requirements-dev.txt') }}-${{ env.CACHE_NUMBER }}
+          key:  conda-${{ runner.os }}-${{ hashFiles('environment-dev.yml') }}-${{ hashFiles('requirements-dev.txt') }}-${{ env.SYCL_EXAMPLES_CACHE_NUMBER }}
       - name: Update conda environment
         id: update_env
         run: |
