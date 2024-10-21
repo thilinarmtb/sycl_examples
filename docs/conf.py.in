@@ -1,12 +1,12 @@
 # Configuration file for the Sphinx documentation builder.
 
 # -- Project information -----------------------------------------------------
-project = "ttt"
-copyright = "2022, ttt"
-author = "ttt"
+project = "sycl-examples"
+copyright = "2022, sycl-examples"
+author = "sycl-examples"
 
 # -- General configuration ---------------------------------------------------
-extensions = ["breathe"]
+extensions = ["breathe", "sphinxcontrib.bibtex"]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
@@ -16,4 +16,7 @@ html_static_path = ["_static"]
 html_css_files = ["main_stylesheet.css"]
 
 # -- Breathe Configuration ---------------------------------------------------
-breathe_default_project = "ttt"
+breathe_default_project = "sycl-examples"
+
+# -- Bibtex files ------------------------------------------------------------
+bibtex_bibfiles = ["@SPHINX_SOURCE_DIR@/references.bib"]

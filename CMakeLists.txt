@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(sycl_examples VERSION 0.0.1 DESCRIPTION "" LANGUAGES CXX)
+project(sycl-examples VERSION 0.0.1 DESCRIPTION "" LANGUAGES CXX)
 
 option(ENABLE_DOCS "Enable Documentation" OFF)
 option(ENABLE_ASAN "Enable AddressSanitizer" OFF)

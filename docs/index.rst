@@ -8,3 +8,5 @@ Welcome to SYCL Examples' documentation!
    :caption: Table of Contents
 
    self
+   device_discovery
+
