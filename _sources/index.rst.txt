@@ -7,6 +7,9 @@ SYCL is a royalty-free, cross-platform, C++ programming model for heterogeneous
 computing :cite:`sycl2020`.
 SYCL is built on parallel APIs such as OpenCL :cite:`khronos_opencl_registry`,
 CUDA :cite:`nvidia_cuda_guide`, and HIP :cite:`amd_hip_guide`.
+These underlying parallel APIs are denoted as *backends* in SYCL.
+SYCL extends the concepts found in these backends and enable their use through
+modern C++.
 
 .. toctree::
    :maxdepth: 3
