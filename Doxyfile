@@ -1,0 +1,20 @@
+PROJECT_NAME           = "sycl-examples"
+PROJECT_NUMBER         = 0.0.1
+PROJECT_BRIEF          = ""
+OUTPUT_DIRECTORY       = "/home/runner/work/sycl-examples/sycl-examples/build/docs/doxygen"
+INPUT                  = "/home/runner/work/sycl-examples/sycl-examples"
+OPTIMIZE_OUTPUT_FOR_C  = YES
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+FILE_PATTERNS          = *.hpp *.cpp
+RECURSIVE              = YES
+GENERATE_HTML          = NO
+GENERATE_LATEX         = NO
+GENERATE_XML           = YES
+WARN_AS_ERROR          = FAIL_ON_WARNINGS
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+SEARCH_INCLUDES        = YES
+EXPAND_ONLY_PREDEF     = NO
+PREDEFINED             = __attribute__(x)=
