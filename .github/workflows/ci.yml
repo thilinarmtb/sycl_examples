@@ -1,4 +1,4 @@
-name: Build, install and test examples
+name: Build, install and test examples/docs
 on:
   pull_request:
     branches: [main]
@@ -21,6 +21,8 @@ jobs:
     defaults:
       run:
         shell: bash -l {0}
+    env:
+      PUSH_ON_MAIN: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     steps:
       - name: Setup GitHub actions
         id: setup_actions
@@ -67,8 +69,21 @@ jobs:
         id: configure_and_build
         run: |
           source /opt/intel/oneapi/setvars.sh
-          ./configure -install-prefix ${SYCL_EXAMPLES_INSTALL_DIR}
-          ./sycl-examples -install
+          ./configure -install-prefix ${SYCL_EXAMPLES_INSTALL_DIR} -enable-docs
+          ./sycl-examples -docs -install
+      - name: Bypass Jekyll
+        id: bypass_jekyll
+        if: ${{ fromJSON(env.PUSH_ON_MAIN) }}
+        run: |
+          cd ${SYCL_EXAMPLES_INSTALL_DIR}/docs && touch .nojekyll
+      - name: Deploy to gh-pages
+        id: deploy
+        if: ${{ fromJSON(env.PUSH_ON_MAIN) }}
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: ${{ env.SYCL_EXAMPLES_INSTALL_DIR }}/docs
       - name: Block to allow inspecting failures
         id: block_for_tmate
         run: sleep 30m

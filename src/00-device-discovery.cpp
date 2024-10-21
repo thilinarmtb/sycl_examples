@@ -4,7 +4,6 @@
 
 /**
  * @brief We import the namespace sycl to avoid excessive typing.
- *
  */
 using namespace sycl;
 
