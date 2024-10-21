@@ -23,9 +23,9 @@ int main(void) {
           << device.get_info<info::device::max_work_item_dimensions>() << " <"
           << device.get_info<info::device::max_work_item_sizes<3>>().get(0)
           << ", "
-          << device.get_info<info::device::max_work_item_sizes<3>>().get(0)
+          << device.get_info<info::device::max_work_item_sizes<3>>().get(1)
           << ", "
-          << device.get_info<info::device::max_work_item_sizes<3>>().get(0)
+          << device.get_info<info::device::max_work_item_sizes<3>>().get(2)
           << ">" << std::endl;
   }
 
