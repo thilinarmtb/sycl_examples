@@ -1,12 +1,16 @@
 SYCL Examples
 =============
 
-Welcome to SYCL Examples' documentation!
+Welcome to SYCL Examples' documentation !
+
+SYCL is a royalty-free, cross-platform, C++ programming model for heterogeneous
+computing :cite:`sycl2020`.
+SYCL is built on parallel APIs such as OpenCL :cite:`khronos_opencl_registry`,
+CUDA :cite:`nvidia_cuda_guide`, and HIP :cite:`amd_hip_guide`.
 
 .. toctree::
    :maxdepth: 3
    :caption: Table of Contents
 
    self
-   device_discovery
-
+   device-discovery
