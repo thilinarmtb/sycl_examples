@@ -75,13 +75,17 @@
   <section id="sycl-examples">
 <h1>SYCL Examples<a class="headerlink" href="#sycl-examples" title="Link to this heading"></a></h1>
 <p>Welcome to SYCL Examples’ documentation !</p>
-<p>SYCL is a royalty-free, cross-platform, C++ programming model for heterogeneous
-computing <span id="id1">[<a class="reference internal" href="#id7" title="The Khronos SYCL Working Group. Sycl specification version 2020. 2020. Accessed: Oct 21, 2024. URL: https://registry.khronos.org/SYCL/specs/sycl-2020/html/sycl-2020.html.">TheKSWGroup20</a>]</span>.
+<p>SYCL is a royalty-free, cross-platform, generic C++ programming model for
+heterogeneous computing <span id="id1">[<a class="reference internal" href="#id7" title="The Khronos SYCL Working Group. Sycl specification version 2020. 2020. Accessed: Oct 21, 2024. URL: https://registry.khronos.org/SYCL/specs/sycl-2020/html/sycl-2020.html.">TheKSWGroup20</a>]</span>.
 SYCL is built on parallel APIs such as OpenCL <span id="id2">[<a class="reference internal" href="#id10" title="Khronos Group. Opencl registry. 2024. Accessed: Oct 21, 2024. URL: https://registry.khronos.org/OpenCL/.">KhronosGroup24</a>]</span>,
-CUDA <span id="id3">[<a class="reference internal" href="#id8" title="NVIDIA Corporation. Cuda c programming guide. 2024. Accessed: Oct 21, 2024. URL: https://docs.nvidia.com/cuda/cuda-c-programming-guide/.">NVIDIACorporation24</a>]</span>, and HIP <span id="id4">[<a class="reference internal" href="#id9" title="AMD. Hip documentation. 2024. Accessed: Oct 21, 2024. URL: https://rocm.docs.amd.com/projects/HIP/en/latest/.">AMD24</a>]</span>.
+CUDA <span id="id3">[<a class="reference internal" href="#id8" title="NVIDIA Corporation. Cuda c programming guide. 2024. Accessed: Oct 21, 2024. URL: https://docs.nvidia.com/cuda/cuda-c-programming-guide/.">NVIDIACorporation24</a>]</span>, and HIP <span id="id4">[<a class="reference internal" href="#id9" title="AMD. Hip documentation. 2024. Accessed: Oct 21, 2024. URL: https://rocm.docs.amd.com/projects/HIP/en/latest/.">AMD24</a>]</span> which are commonly
+used for programming GPUs/CPUs and other accelerators (which we refer to as
+<em>devices</em> going forward).
 These underlying parallel APIs are denoted as <em>backends</em> in SYCL.
-SYCL extends the concepts found in these backends and enable their use through
-modern C++.</p>
+SYCL implementations extend the concepts found in these backends and enable
+their use through modern C++.
+The SYCL specification defines the behavior that all SYCL implementations must
+provide to users.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
 <ul class="current">
