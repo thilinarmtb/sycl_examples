@@ -12,7 +12,6 @@ on:
         required: false
         default: false
 env:
-  SYCL_EXAMPLES_INSTALL_DIR: ${{ github.workspace }}/install
   SYCL_EXAMPLES_CACHE_NUMBER: 0 # Increase to reset cache manually.
   SYCL_EXAMPLES_ENV: /usr/share/miniconda/envs/sycl-examples-dev
 jobs:
@@ -39,7 +38,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.SYCL_EXAMPLES_ENV }}
-          key:  conda-${{ runner.os }}-${{ hashFiles('environment-dev.yml') }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('requirements-dev.txt') }}-${{ env.SYCL_EXAMPLES_CACHE_NUMBER }}
+          key:  conda-${{ runner.os }}-${{ hashFiles('environment-dev.yml') }}-${{ hashFiles('requirements-dev.txt') }}-${{ env.SYCL_EXAMPLES_CACHE_NUMBER }}
         id: cache
       - name: Update conda environment
         id: update_env
@@ -49,13 +48,14 @@ jobs:
       - name: Build documentation
         id: build_docs
         run: |
-          ./configure -install-prefix ${SYCL_EXAMPLES_INSTALL_DIR} --enable-docs
-          ./sycl-examples --docs --install
+          ./configure -enable-docs \
+            -cxx g++ -cxxflags "-O0" # Use g++ here to avoid having to install sycl.
+          ./sycl-examples -docs
       - name: Bypass Jekyll
         id: bypass_jekyll
         if: ${{ fromJSON(env.PUSH_ON_MAIN) }}
         run: |
-          cd ${SYCL_EXAMPLES_INSTALL_DIR}/docs && touch .nojekyll
+          cd build/docs && touch .nojekyll
       - name: Deploy to gh-pages
         id: deploy
         if: ${{ fromJSON(env.PUSH_ON_MAIN) }}
@@ -63,7 +63,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: ${{ env.SYCL_EXAMPLES_INSTALL_DIR }}/docs
+          FOLDER: build/docs
       - name: Block to allow inspecting failures
         run: sleep 30m
         if: ${{ failure() && inputs.debug_enabled }}
